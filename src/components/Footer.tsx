@@ -3,7 +3,7 @@ const Copyright: React.FC = () => {
     <p className="text-center ">
       {"Copyright © "}
       {new Date().getFullYear()}
-      {" CoinStamp"}
+      {" Rate My Landlord"}
     </p>
   );
 };

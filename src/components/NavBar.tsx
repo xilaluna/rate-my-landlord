@@ -8,7 +8,7 @@ const NavItem: React.FC<NavItemProps> = ({ dest, text }) => {
 };
 
 const Title = () => {
-  return <div className="m-3 font-bold">Rate Your Landlord</div>;
+  return <div className="m-3 font-bold">Rate My Landlord</div>;
 };
 
 const NavBar = () => {

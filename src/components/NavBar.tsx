@@ -1,24 +1,32 @@
 import { procedureTypes } from "@trpc/server";
 import Link from "next/link";
+import { signIn, useSession } from "next-auth/react";
 
 type NavItemProps = {
   dest: string;
   text: string;
 };
 
+const hoverStyle = "m-3 hover:bg-slate-300";
+
 const NavItem: React.FC<NavItemProps> = ({ dest, text }) => {
   return (
     <Link href={dest}>
-      <div className="m-3 hover:bg-sky-700">{text}</div>
+      <div className={hoverStyle}>{text}</div>
     </Link>
   );
 };
 
 const Title = () => {
-  return <div className="m-3 font-bold">Rate My Landlord</div>;
+  return (
+    <div className="m-3 font-bold">
+      <Link href="/"> Rate My Landlord</Link>
+    </div>
+  );
 };
 
 const NavBar = () => {
+  const { data: session, status } = useSession();
   return (
     <div
       className={
@@ -27,16 +35,13 @@ const NavBar = () => {
     >
       <Title />
       <div className="flex">
-        {/*
-          TODO: change true to 'user.isSignedIn' to dynamically show either Login or 
-          Profile on navbar depending on whether user is logged in.
-        */}
-        {true ? (
-          <NavItem dest="/Login" text="Log In" />
-        ) : (
+        {status === "authenticated" ? (
           <NavItem dest="/Profile" text="Profile" />
+        ) : (
+          <div className={hoverStyle} onClick={() => signIn()}>
+            Log In
+          </div>
         )}
-        <NavItem dest="/SignUp" text="Sign Up" />
       </div>
     </div>
   );

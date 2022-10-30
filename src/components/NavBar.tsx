@@ -7,7 +7,7 @@ type NavItemProps = {
   text: string;
 };
 
-const hoverStyle = "m-3 hover:bg-sky-700";
+const hoverStyle = "m-3 hover:bg-slate-300";
 
 const NavItem: React.FC<NavItemProps> = ({ dest, text }) => {
   return (

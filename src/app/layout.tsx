@@ -1,13 +1,5 @@
 import "~/styles/globals.css";
 import Navbar from "~/components/navbar";
-import Footer from "~/components/footer";
-
-import { Inter } from "next/font/google";
-
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-sans",
-});
 
 export const metadata = {
   title: "Rate My Landlord",
@@ -22,10 +14,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`font-sans ${inter.variable}`}>
+      <body>
         <Navbar />
         {children}
-        <Footer />
       </body>
     </html>
   );

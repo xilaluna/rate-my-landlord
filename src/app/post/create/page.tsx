@@ -14,12 +14,7 @@ export default async function NewPost() {
           <h3 className="col-span-6 pl-1">Address</h3>
           <input
             type="text"
-            placeholder="Address Line 1"
-            className="input input-bordered col-span-3"
-          />
-          <input
-            type="text"
-            placeholder="Address Line 2"
+            placeholder="Street Address"
             className="input input-bordered col-span-3"
           />
           <input

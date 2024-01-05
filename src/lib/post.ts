@@ -7,7 +7,7 @@ export async function getPosts() {
   return posts;
 };
 
-export async function createPost(data: { title: string, content: string }){
-  const post = await db.post.create({ data });
-  return post;
-}
+// export async function createPost(data: { title: string, content: string }){
+//   const post = await db.post.create({ data });
+//   return post;
+// }

@@ -15,7 +15,7 @@ export default async function NewPost() {
           <input
             type="text"
             placeholder="Street Address"
-            className="input input-bordered col-span-3"
+            className="input input-bordered col-span-6"
           />
           <input
             type="text"

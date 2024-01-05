@@ -14,6 +14,11 @@ model Post {
     updatedAt DateTime @updatedAt
     title     String   @db.VarChar(255)
     content   String
+
+    address   Address @relation(fields: [addressId], references: [id])
+    addressId String
+
+    @@index([addressId])
 }
 
 model Address {
@@ -22,4 +27,5 @@ model Address {
     addressLocality String
     addressRegion   String
     postalCode      String
+    posts           Post[]
 }

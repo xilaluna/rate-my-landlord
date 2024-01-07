@@ -1,8 +1,6 @@
+import { createPost } from "~/lib/posts";
+
 export default async function NewPost() {
-  async function createPost() {
-    "use server";
-    console.log("create post");
-  }
   return (
     <main className="flex flex-col items-center space-y-5 py-5">
       <form
@@ -15,21 +13,25 @@ export default async function NewPost() {
           <input
             type="text"
             placeholder="Street Address"
+            name="streetAddress"
             className="input input-bordered col-span-6"
           />
           <input
             type="text"
             placeholder="City"
+            name="city"
             className="input input-bordered col-span-2"
           />
           <input
             type="text"
             placeholder="State"
+            name="state"
             className="input input-bordered col-span-2"
           />
           <input
             type="text"
             placeholder="Zip Code"
+            name="postalCode"
             className="input input-bordered col-span-2"
           />
         </div>
@@ -38,6 +40,7 @@ export default async function NewPost() {
           <input
             type="text"
             placeholder="Title"
+            name="title"
             className="input input-bordered col-span-6"
           />
         </div>
@@ -46,6 +49,7 @@ export default async function NewPost() {
           <textarea
             className="textarea textarea-bordered col-span-6"
             placeholder="Content"
+            name="content"
           ></textarea>
         </div>
         <button type="submit" className="btn btn-primary float-right">

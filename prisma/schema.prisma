@@ -22,10 +22,10 @@ model Post {
 }
 
 model Address {
-    id              String @id @default(cuid())
-    streetAddress   String
-    addressLocality String
-    addressRegion   String
-    postalCode      String
-    posts           Post[]
+    id            String @id @default(cuid())
+    streetAddress String
+    city          String
+    state         String
+    postalCode    String
+    posts         Post[]
 }

@@ -19,16 +19,30 @@ export async function getPosts() {
 
 export async function createPost(formData: FormData ){
   try {
-    const validatedData = PostSchema.parse(Object.fromEntries(formData));
-    // const rawFormData = {
-    //   streetAddress: formData.get('streetAddress'),
-    //   city: formData.get('city'),
-    //   state: formData.get('state'),
-    //   postalCode: formData.get('postalCode'),
-    //   title: formData.get('title'),
-    //   content: formData.get('content'),
-    // };
-    console.log(validatedData);
+    const { streetAddress, city, state, postalCode, title, content } = PostSchema.parse(Object.fromEntries(formData));
+
+    const address = await db.address.create({
+      data: {
+        streetAddress,
+        city,
+        state,
+        postalCode,
+      }
+    });
+    const post = await db.post.create({
+      data: {
+        title,
+        content,
+        address: {
+          connect: {
+            id: address.id
+          }
+        }
+      }
+    });
+
+    
+    console.log(post);
     
   } catch (error) {
     console.error('Error creating user:', error);

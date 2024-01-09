@@ -15,17 +15,8 @@ model Post {
     title     String   @db.VarChar(255)
     content   String
 
-    address   Address @relation(fields: [addressId], references: [id])
-    addressId String
-
-    @@index([addressId])
-}
-
-model Address {
-    id            String @id @default(cuid())
     streetAddress String
     city          String
     state         String
     postalCode    String
-    posts         Post[]
 }

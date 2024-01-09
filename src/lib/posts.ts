@@ -2,7 +2,11 @@
 
 import { db } from "~/lib/prisma";
 import { z  } from "zod";
+import { revalidatePath } from 'next/cache';
+import { redirect } from 'next/navigation';
 
+
+// Define the shape of the data for a new post
 const PostSchema = z.object({
   streetAddress: z.string(),
   city: z.string(),
@@ -12,38 +16,30 @@ const PostSchema = z.object({
   content: z.string(),
 });
 
+
+// Get all posts from the database
 export async function getPosts() {
   const posts = await db.post.findMany();
   return posts;
 };
 
+// Create a new post in the database
 export async function createPost(formData: FormData ){
   try {
     const { streetAddress, city, state, postalCode, title, content } = PostSchema.parse(Object.fromEntries(formData));
-
-    const address = await db.address.create({
+    const post = await db.post.create({
       data: {
+        title,
+        content,
         streetAddress,
         city,
         state,
         postalCode,
       }
     });
-    const post = await db.post.create({
-      data: {
-        title,
-        content,
-        address: {
-          connect: {
-            id: address.id
-          }
-        }
-      }
-    });
-
-    
     console.log(post);
-    
+    revalidatePath('/');
+    redirect('/');
   } catch (error) {
     console.error('Error creating user:', error);
     throw error;

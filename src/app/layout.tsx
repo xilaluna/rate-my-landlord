@@ -1,5 +1,6 @@
 import "~/styles/globals.css";
 import Navbar from "~/components/navbar";
+import { ClerkProvider } from "@clerk/nextjs";
 
 export const metadata = {
   title: "Rate My Landlord",
@@ -13,11 +14,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body>
-        <Navbar />
-        {children}
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en">
+        <body>
+          <Navbar />
+          {children}
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }

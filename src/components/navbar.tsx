@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { UserButton } from "@clerk/nextjs";
 
 const Navbar = () => {
   return (
@@ -13,6 +14,7 @@ const Navbar = () => {
           Create Post
         </Link>
         <button className="btn">Login</button>
+        <UserButton afterSignOutUrl="/" />
       </div>
     </div>
   );

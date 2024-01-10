@@ -13,7 +13,7 @@ const Navbar = () => {
         <Link href={"/post/create"} className="btn">
           Create Post
         </Link>
-        <button className="btn">Login</button>
+
         <UserButton afterSignOutUrl="/" />
       </div>
     </div>

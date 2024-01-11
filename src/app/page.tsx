@@ -1,10 +1,6 @@
 import { getPosts } from "~/lib/posts";
-import { useUser } from "@clerk/nextjs";
 
 export default async function HomePage() {
-  const { isSignedIn } = useUser();
-
-  console.log(isSignedIn);
   const posts = await getPosts();
   return (
     <main className="flex flex-col items-center space-y-5 py-5">

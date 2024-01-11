@@ -3,7 +3,6 @@ import { UserButton, auth, SignInButton } from "@clerk/nextjs";
 
 export default function Navbar() {
   const { userId } = auth();
-  console.log(userId);
   return (
     <div className="navbar border-b bg-base-100 md:px-5">
       <div className="navbar-start">

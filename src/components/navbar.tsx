@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { UserButton, auth, SignInButton } from "@clerk/nextjs";
 
-const Navbar = () => {
-  // Get the user ID of the currently signed in user
+export default function Navbar() {
   const { userId } = auth();
+  console.log(userId);
   return (
     <div className="navbar border-b bg-base-100 md:px-5">
       <div className="navbar-start">
@@ -11,23 +11,27 @@ const Navbar = () => {
           Rate My Landlord
         </Link>
       </div>
-      {!!userId && (
-        <div className="navbar-end space-x-2">
-          <Link href={"/post/create"} className="btn">
-            Create Post
-          </Link>
-          <UserButton afterSignOutUrl="/" />
-        </div>
-      )}
-      {!userId && (
-        <div className="navbar-end space-x-2">
-          <SignInButton>
-            <button className="btn">Login</button>
-          </SignInButton>
-        </div>
-      )}
+      <LoggeInInfo userId={userId} />
     </div>
   );
-};
+}
 
-export default Navbar;
+function LoggeInInfo({ userId }: { userId: string | null }) {
+  if (!userId) {
+    return (
+      <div className="navbar-end space-x-2">
+        <SignInButton>
+          <button className="btn">Login</button>
+        </SignInButton>
+      </div>
+    );
+  }
+  return (
+    <div className="navbar-end space-x-2">
+      <Link href={"/post/create"} className="btn">
+        Create Post
+      </Link>
+      <UserButton afterSignOutUrl="/" />
+    </div>
+  );
+}

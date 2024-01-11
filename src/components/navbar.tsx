@@ -20,7 +20,7 @@ function LoggeInInfo({ userId }: { userId: string | null }) {
     return (
       <div className="navbar-end space-x-2">
         <SignInButton>
-          <button className="btn">Login</button>
+          <button className="btn">Sign In</button>
         </SignInButton>
       </div>
     );

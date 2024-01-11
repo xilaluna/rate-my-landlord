@@ -11,19 +11,21 @@ const Navbar = () => {
           Rate My Landlord
         </Link>
       </div>
-      <div className="navbar-end space-x-2">
-        {!!userId && (
+      {!!userId && (
+        <div className="navbar-end space-x-2">
           <Link href={"/post/create"} className="btn">
             Create Post
           </Link>
-        )}
-        {!userId && (
+          <UserButton afterSignOutUrl="/" />
+        </div>
+      )}
+      {!userId && (
+        <div className="navbar-end space-x-2">
           <SignInButton>
             <button className="btn">Login</button>
           </SignInButton>
-        )}
-        <UserButton afterSignOutUrl="/" />
-      </div>
+        </div>
+      )}
     </div>
   );
 };

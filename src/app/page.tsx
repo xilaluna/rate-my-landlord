@@ -2,6 +2,9 @@ import { getPosts } from "~/lib/posts";
 
 export default async function HomePage() {
   const posts = await getPosts();
+  if (!posts) {
+    return <div>loading...</div>;
+  }
   return (
     <main className="flex flex-col items-center space-y-5 py-5">
       {posts.map((post) => (

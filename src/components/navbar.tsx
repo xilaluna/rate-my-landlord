@@ -4,11 +4,9 @@ import { UserButton, auth, SignInButton } from "@clerk/nextjs";
 export default function Navbar() {
   const { userId } = auth();
   return (
-    <div className="navbar border-b bg-base-100 md:px-5">
-      <div className="navbar-start">
-        <Link href={"/"} className="btn btn-ghost text-xl">
-          Rate My Landlord
-        </Link>
+    <div>
+      <div>
+        <Link href={"/"}>Rate My Landlord</Link>
       </div>
       <LoggeInInfo userId={userId} />
     </div>
@@ -18,18 +16,16 @@ export default function Navbar() {
 function LoggeInInfo({ userId }: { userId: string | null }) {
   if (!userId) {
     return (
-      <div className="navbar-end space-x-2">
+      <div>
         <SignInButton>
-          <button className="btn">Sign In</button>
+          <button>Sign In</button>
         </SignInButton>
       </div>
     );
   }
   return (
-    <div className="navbar-end space-x-2">
-      <Link href={"/post/create"} className="btn">
-        Create Post
-      </Link>
+    <div>
+      <Link href={"/post/create"}>Create Post</Link>
       <UserButton afterSignOutUrl="/" />
     </div>
   );

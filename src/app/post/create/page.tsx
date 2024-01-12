@@ -14,47 +14,20 @@ export default async function NewPost() {
             type="text"
             placeholder="Street Address"
             name="streetAddress"
-            className="input input-bordered col-span-6"
           />
-          <input
-            type="text"
-            placeholder="City"
-            name="city"
-            className="input input-bordered col-span-2"
-          />
-          <input
-            type="text"
-            placeholder="State"
-            name="state"
-            className="input input-bordered col-span-2"
-          />
-          <input
-            type="text"
-            placeholder="Zip Code"
-            name="postalCode"
-            className="input input-bordered col-span-2"
-          />
+          <input type="text" placeholder="City" name="city" />
+          <input type="text" placeholder="State" name="state" />
+          <input type="text" placeholder="Zip Code" name="postalCode" />
         </div>
         <div className="grid grid-cols-6 gap-2">
           <h3 className="col-span-6">Title</h3>
-          <input
-            type="text"
-            placeholder="Title"
-            name="title"
-            className="input input-bordered col-span-6"
-          />
+          <input type="text" placeholder="Title" name="title" />
         </div>
         <div className="grid grid-cols-6 gap-2">
           <h3 className="col-span-6">Content</h3>
-          <textarea
-            className="textarea textarea-bordered col-span-6"
-            placeholder="Content"
-            name="content"
-          ></textarea>
+          <textarea placeholder="Content" name="content"></textarea>
         </div>
-        <button type="submit" className="btn btn-primary float-right">
-          Submit Post
-        </button>
+        <button type="submit">Submit Post</button>
       </form>
     </main>
   );

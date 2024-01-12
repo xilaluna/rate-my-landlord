@@ -1,3 +1,11 @@
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "~/components/ui/card";
 import { getPost } from "~/lib/posts";
 
 export default async function Post({ params }: { params: { id: string } }) {
@@ -6,8 +14,19 @@ export default async function Post({ params }: { params: { id: string } }) {
     return <div>loading...</div>;
   }
   return (
-    <div>
-      <h1>{post.title}</h1>
-    </div>
+    <main className="flex flex-col items-center space-y-5 py-5">
+      <Card className="max-w-xl" key={post.id}>
+        <CardHeader>
+          <CardTitle>{post.title}</CardTitle>
+          <CardDescription>
+            {post.streetAddress}, {post.city}, {post.state}
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <p>{post.content}</p>
+        </CardContent>
+        <CardFooter></CardFooter>
+      </Card>
+    </main>
   );
 }

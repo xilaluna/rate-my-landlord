@@ -18,7 +18,7 @@ export default async function HomePage() {
   return (
     <main className="flex flex-col items-center space-y-5 py-5">
       {posts.map((post) => (
-        <Card className="max-w-xl" key={post.id}>
+        <Card className="w-full max-w-xl" key={post.id}>
           <CardHeader>
             <CardTitle>{post.title}</CardTitle>
             <CardDescription>

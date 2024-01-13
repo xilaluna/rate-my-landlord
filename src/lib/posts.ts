@@ -27,6 +27,18 @@ export async function getPosts() {
   }
 };
 
+// Get a single post from the database
+export async function getPost(id: string) {
+  try {
+    const post = await db.post.findUnique({
+      where: { id },
+    });
+    return post;
+  } catch (error) {
+    console.error('Error getting post:', error);
+  }
+};
+
 // Create a new post in the database
 export async function createPost(formData: FormData ){
   try {
@@ -58,15 +70,3 @@ export async function createPost(formData: FormData ){
   revalidatePath('/');
   redirect('/');
 }
-
-// Get a single post from the database
-export async function getPost(id: string) {
-  try {
-    const post = await db.post.findUnique({
-      where: { id },
-    });
-    return post;
-  } catch (error) {
-    console.error('Error getting post:', error);
-  }
-};

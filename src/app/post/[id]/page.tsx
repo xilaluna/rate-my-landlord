@@ -6,7 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "~/components/ui/card";
-import { getPost } from "~/lib/posts";
+import { getPost } from "~/server/posts";
 
 export default async function Post({ params }: { params: { id: string } }) {
   const post = await getPost(params.id);

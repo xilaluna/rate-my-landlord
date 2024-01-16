@@ -1,4 +1,4 @@
-import { getPosts } from "~/lib/posts";
+import { getPosts } from "~/server/posts";
 import Link from "next/link";
 import {
   Card,

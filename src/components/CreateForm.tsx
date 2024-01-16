@@ -2,7 +2,7 @@
 
 import { useFormState } from "react-dom";
 import { Button } from "~/components/ui/button";
-import { createPost } from "~/lib/posts";
+import { createPost } from "~/server/posts";
 import { Textarea } from "~/components/ui/textarea";
 import { Label } from "~/components/ui/label";
 import { Input } from "~/components/ui/input";

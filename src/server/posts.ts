@@ -1,6 +1,6 @@
 'use server';
 
-import { db } from "~/lib/prisma";
+import { db } from "~/server/prisma";
 import { z  } from "zod";
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';

@@ -33,9 +33,10 @@ export default function CreateForm() {
           placeholder="Your street address"
           name="streetAddress"
           required
+          hasError={!!formState.errors.streetAddress}
         />
         {formState.errors.streetAddress && (
-          <span className="text-red-400">{formState.errors.streetAddress}</span>
+          <span className="text-red-500">{formState.errors.streetAddress}</span>
         )}
       </div>
       <div className="grid w-full items-center gap-1.5">
@@ -46,9 +47,10 @@ export default function CreateForm() {
           placeholder="Your city"
           name="city"
           required
+          hasError={!!formState.errors.city}
         />
         {formState.errors.city && (
-          <span className="text-red-400">{formState.errors.city}</span>
+          <span className="text-red-500">{formState.errors.city}</span>
         )}
       </div>
       <div className="grid w-full items-center gap-1.5">
@@ -59,9 +61,10 @@ export default function CreateForm() {
           placeholder="Your state"
           name="state"
           required
+          hasError={!!formState.errors.state}
         />
         {formState.errors.state && (
-          <span className="text-red-400">{formState.errors.state}</span>
+          <span className="text-red-500">{formState.errors.state}</span>
         )}
       </div>
       <div className="grid w-full items-center gap-1.5">
@@ -72,9 +75,10 @@ export default function CreateForm() {
           placeholder="Your zip code"
           name="postalCode"
           required
+          hasError={!!formState.errors.postalCode}
         />
         {formState.errors.postalCode && (
-          <span className="text-red-400">{formState.errors.postalCode}</span>
+          <span className="text-red-500">{formState.errors.postalCode}</span>
         )}
       </div>
       <div className="grid w-full items-center gap-1.5">
@@ -85,9 +89,10 @@ export default function CreateForm() {
           placeholder="The title of the post"
           name="title"
           required
+          hasError={!!formState.errors.title}
         />
         {formState.errors.title && (
-          <span className="text-red-400">{formState.errors.title}</span>
+          <span className="text-red-500">{formState.errors.title}</span>
         )}
       </div>
       <div className="grid w-full items-center gap-1.5">
@@ -97,12 +102,13 @@ export default function CreateForm() {
           id="message"
           name="content"
           required
+          hasError={!!formState.errors.content}
         />
         {formState.errors.content && (
-          <span className="text-red-400">{formState.errors.content}</span>
+          <span className="text-red-500">{formState.errors.content}</span>
         )}
       </div>
-      <span className="text-red-400">{formState?.message}</span>
+      <span className="text-red-500">{formState?.message}</span>
       <Button type="submit">Submit Post</Button>
     </form>
   );

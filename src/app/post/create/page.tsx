@@ -7,7 +7,6 @@ import {
   CardFooter,
 } from "~/components/ui/card";
 
-import { Button } from "~/components/ui/button";
 import CreateForm from "~/components/CreateForm";
 
 export default async function NewPost() {
@@ -21,11 +20,6 @@ export default async function NewPost() {
         <CardContent>
           <CreateForm />
         </CardContent>
-        <CardFooter>
-          <Button form="create-post-form" type="submit">
-            Submit Post
-          </Button>
-        </CardFooter>
       </Card>
     </main>
   );

@@ -8,10 +8,10 @@ import { auth } from "@clerk/nextjs";
 
 // Define the shape of the data for a new post
 const PostSchema = z.object({
-  streetAddress: z.string(),
+  streetAddress: z.string().min(1),
   city: z.string().min(1),
   state: z.string().min(1).max(2),
-  postalCode: z.string(),
+  postalCode: z.string().min(1),
   title: z.string().min(1),
   content: z.string().min(1),
 });
@@ -39,9 +39,23 @@ export async function getPost(id: string) {
   }
 };
 
+export type FormState = {
+  message: string;
+  errors: {
+    streetAddress?: string;
+    city?: string;
+    state?: string;
+    postalCode?: string;
+    title?: string;
+    content?: string;
+  };
+};
+
 // Create a new post in the database
-export async function createPost(formData: FormData ){
+export async function createPost(prevState: FormState, formData: FormData ){
   try {
+    const {userId} = auth()
+    if (!userId) throw new Error('Not logged in');
     
     const { streetAddress, city, state, postalCode, title, content } = PostSchema.parse({
       streetAddress: formData.get('streetAddress'),
@@ -51,10 +65,7 @@ export async function createPost(formData: FormData ){
       title: formData.get('title'),
       content: formData.get('content'),
     });
-    
-    const {userId} = auth()
-    if (!userId) throw new Error('Not logged in');
-    
+
     await db.post.create({
       data: {
         title,
@@ -67,9 +78,25 @@ export async function createPost(formData: FormData ){
       }
     });
     
+    
   } catch (error) {
-    console.log('Error creating post:', error);
-    return error;
+    if (error instanceof z.ZodError) {
+      const errorMap = error.flatten().fieldErrors
+      console.log(errorMap)
+      return {
+        message: 'Failed', 
+        errors: {
+          streetAddress: errorMap.streetAddress?.[0], 
+          city: errorMap.city?.[0], 
+          state: errorMap.state?.[0], 
+          postalCode: errorMap.postalCode?.[0], 
+          title: errorMap.title?.[0], 
+          content: errorMap.content?.[0]
+        }
+      };
+    }
+    
+    return {message: 'Failed', errors: {}};
   }
 
   // Revalidate the cache for the home page

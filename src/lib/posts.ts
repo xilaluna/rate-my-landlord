@@ -82,7 +82,6 @@ export async function createPost(prevState: FormState, formData: FormData ){
   } catch (error) {
     if (error instanceof z.ZodError) {
       const errorMap = error.flatten().fieldErrors
-      console.log(errorMap)
       return {
         message: 'Failed', 
         errors: {

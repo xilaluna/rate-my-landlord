@@ -32,6 +32,7 @@ export default function CreateForm() {
           id="streetAddress"
           placeholder="Your street address"
           name="streetAddress"
+          required
         />
         {formState.errors.streetAddress && (
           <span className="text-red-400">{formState.errors.streetAddress}</span>
@@ -39,14 +40,26 @@ export default function CreateForm() {
       </div>
       <div className="grid w-full items-center gap-1.5">
         <Label htmlFor="city">City</Label>
-        <Input type="text" id="city" placeholder="Your city" name="city" />
+        <Input
+          type="text"
+          id="city"
+          placeholder="Your city"
+          name="city"
+          required
+        />
         {formState.errors.city && (
           <span className="text-red-400">{formState.errors.city}</span>
         )}
       </div>
       <div className="grid w-full items-center gap-1.5">
         <Label htmlFor="state">State</Label>
-        <Input type="text" id="state" placeholder="Your state" name="state" />
+        <Input
+          type="text"
+          id="state"
+          placeholder="Your state"
+          name="state"
+          required
+        />
         {formState.errors.state && (
           <span className="text-red-400">{formState.errors.state}</span>
         )}
@@ -58,6 +71,7 @@ export default function CreateForm() {
           id="postalCode"
           placeholder="Your zip code"
           name="postalCode"
+          required
         />
         {formState.errors.postalCode && (
           <span className="text-red-400">{formState.errors.postalCode}</span>
@@ -70,6 +84,7 @@ export default function CreateForm() {
           id="title"
           placeholder="The title of the post"
           name="title"
+          required
         />
         {formState.errors.title && (
           <span className="text-red-400">{formState.errors.title}</span>
@@ -81,6 +96,7 @@ export default function CreateForm() {
           placeholder="Type your message here."
           id="message"
           name="content"
+          required
         />
         {formState.errors.content && (
           <span className="text-red-400">{formState.errors.content}</span>

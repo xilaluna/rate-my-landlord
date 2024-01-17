@@ -5,6 +5,13 @@ import { z  } from "zod";
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { auth } from "@clerk/nextjs";
+import { clerkClient } from "@clerk/nextjs";
+import type { User } from "@clerk/nextjs/server";
+
+
+const filterUserInfo = (user: User) => {
+  return {id: user.id, username: user.username, imageUrl: user.imageUrl}
+}
 
 // Define the shape of the data for a new post
 const PostSchema = z.object({
@@ -20,8 +27,19 @@ const PostSchema = z.object({
 // Get all posts from the database
 export async function getPosts() {
   try {
-    const posts = await db.post.findMany();
-    return posts;
+    const posts = await db.post.findMany({
+      take: 10,
+    });
+    const users = (await clerkClient.users.getUserList({
+      userId: posts.map((post) => post.userId),
+      limit: 10,
+    })).map(filterUserInfo);
+
+    return posts.map((post) => ({
+      post, 
+      user: users.find((user) => user.id === post.userId)
+    }));
+
   } catch (error) {
     console.error('Error getting posts:', error);
   }

@@ -17,7 +17,7 @@ export default function Navbar() {
       <div className="mx-auto flex max-w-7xl justify-between py-4">
         <div className="flex items-center space-x-4">
           <Link href={"/"} className="text-lg font-bold">
-            Rate My Landlord
+            🏠 Rate My Landlord
           </Link>
         </div>
         <div className="flex items-center space-x-4">

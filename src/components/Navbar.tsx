@@ -1,6 +1,14 @@
 import Link from "next/link";
-import { UserButton, auth, SignInButton } from "@clerk/nextjs";
+import { auth, SignInButton, SignOutButton } from "@clerk/nextjs";
 import { Button } from "~/components/ui/button";
+import { Menu } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "~/components/ui/dropdown-menu";
 
 export default function Navbar() {
   const { userId } = auth();
@@ -29,11 +37,25 @@ function LoggeInInfo({ userId }: { userId: string | null }) {
     );
   }
   return (
-    <>
-      <Link href={"/post/create"}>
-        <Button>Create Post</Button>
-      </Link>
-      <UserButton afterSignOutUrl="/" />
-    </>
+    <DropdownMenu>
+      <DropdownMenuTrigger>
+        <Menu />
+      </DropdownMenuTrigger>
+      <DropdownMenuContent>
+        <Link href={"/post/create"}>
+          <DropdownMenuItem>Create Post</DropdownMenuItem>
+        </Link>
+        <DropdownMenuItem>Profile</DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <Link href={"/profile"}>
+          <DropdownMenuItem>Manage Account</DropdownMenuItem>
+        </Link>
+        <Link href={"/"}>
+          <DropdownMenuItem>
+            <SignOutButton>Sign Out</SignOutButton>
+          </DropdownMenuItem>
+        </Link>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }

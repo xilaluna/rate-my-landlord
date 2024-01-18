@@ -10,7 +10,7 @@ import type { User } from "@clerk/nextjs/server";
 
 
 const filterUserInfo = (user: User) => {
-  return {id: user.id, username: user.username, imageUrl: user.imageUrl}
+  return {id: user.id, username: user.username, imageUrl: user.imageUrl, firstName: user.firstName, lastName: user.lastName}
 }
 
 // Define the shape of the data for a new post
@@ -27,9 +27,13 @@ const PostSchema = z.object({
 // Get all posts from the database
 export async function getPosts() {
   try {
+
+    // Get the first 10 posts from the database
     const posts = await db.post.findMany({
       take: 10,
     });
+
+    // Get the user info for the posts
     const users = (await clerkClient.users.getUserList({
       userId: posts.map((post) => post.userId),
       limit: 10,
@@ -51,7 +55,15 @@ export async function getPost(id: string) {
     const post = await db.post.findUnique({
       where: { id },
     });
-    return post;
+    if (!post) throw new Error('Post not found');
+
+    const user = await clerkClient.users.getUser(post.userId);
+    if (!user) throw new Error('User not found');
+
+    return { 
+      post: post, 
+      user: filterUserInfo(user) 
+    };
   } catch (error) {
     console.error('Error getting post:', error);
   }

@@ -5,10 +5,11 @@ import {
   CardDescription,
   CardContent,
 } from "~/components/ui/card";
-
+import { auth } from "@clerk/nextjs";
 import CreateForm from "~/components/CreateForm";
 
 export default async function NewPost() {
+  auth().protect();
   return (
     <main className="flex flex-col items-center space-y-5 py-5">
       <Card className="w-full max-w-xl">

@@ -17,7 +17,7 @@ export default async function Post({ params }: { params: { id: string } }) {
   console.log(post.user.username);
   return (
     <main className="flex flex-col items-center space-y-5 py-5">
-      <Card className="max-w-xl" key={post.post.id}>
+      <Card className="w-full max-w-xl" key={post.post.id}>
         <CardHeader>
           <div className="flex items-center gap-2">
             <Avatar className="h-6 w-6">
@@ -26,7 +26,11 @@ export default async function Post({ params }: { params: { id: string } }) {
                 {post.user?.username?.slice(0, 1)}
               </AvatarFallback>
             </Avatar>
-            <p className="">{post.user.username}</p>
+            <UserName
+              username={post.user?.username}
+              firstName={post.user?.firstName}
+              lastName={post.user?.lastName}
+            />
           </div>
           <CardTitle>{post.post.title}</CardTitle>
           <CardDescription>
@@ -40,4 +44,23 @@ export default async function Post({ params }: { params: { id: string } }) {
       </Card>
     </main>
   );
+}
+
+function UserName({
+  username,
+  firstName,
+  lastName,
+}: {
+  username: string | null;
+  firstName: string | null;
+  lastName: string | null;
+}) {
+  if (!username) {
+    return (
+      <p>
+        {firstName} {lastName}
+      </p>
+    );
+  }
+  return <p>{username}</p>;
 }

@@ -14,7 +14,6 @@ export default async function Post({ params }: { params: { id: string } }) {
   if (!post) {
     return <div>loading...</div>;
   }
-  console.log(post.user.username);
   return (
     <main className="flex flex-col items-center space-y-5 py-5">
       <Card className="w-full max-w-xl" key={post.post.id}>

@@ -7,22 +7,12 @@ import { redirect } from 'next/navigation';
 import { auth } from "@clerk/nextjs";
 import { clerkClient } from "@clerk/nextjs";
 import type { User } from "@clerk/nextjs/server";
+import postFormSchema from "~/lib/postFormSchema";
 
 
 const filterUserInfo = (user: User) => {
   return {id: user.id, username: user.username, imageUrl: user.imageUrl, firstName: user.firstName, lastName: user.lastName}
 }
-
-// Define the shape of the data for a new post
-const PostSchema = z.object({
-  streetAddress: z.string().min(1),
-  city: z.string().min(1),
-  state: z.string().min(1).max(2),
-  postalCode: z.string().min(1),
-  title: z.string().min(2),
-  content: z.string().min(10),
-});
-
 
 // Get all posts from the database
 export async function getPosts() {
@@ -48,6 +38,20 @@ export async function getPosts() {
     console.error('Error getting posts:', error);
   }
 };
+
+export async function getPostsByCity(search: string) {
+  try {
+    const posts = await db.post.findMany({
+      where: { city: search },
+    });
+    if (!posts) throw new Error('Posts not found');
+    
+  } catch (error) {
+    
+  }
+
+};
+
 
 // Get a single post from the database
 export async function getPost(id: string) {
@@ -87,7 +91,7 @@ export async function createPost(prevState: FormState, formData: FormData ){
     const {userId} = auth()
     if (!userId) throw new Error('Not logged in');
     
-    const { streetAddress, city, state, postalCode, title, content } = PostSchema.parse({
+    const { streetAddress, city, state, postalCode, title, content } = postFormSchema.parse({
       streetAddress: formData.get('streetAddress'),
       city: formData.get('city'),
       state: formData.get('state'),

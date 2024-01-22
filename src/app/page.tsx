@@ -10,6 +10,7 @@ import {
 } from "~/components/ui/card";
 import { Button } from "~/components/ui/button";
 import { Avatar, AvatarImage, AvatarFallback } from "~/components/ui/avatar";
+import { Input } from "~/components/ui/input";
 
 export default async function HomePage() {
   const posts = await getPosts();
@@ -18,6 +19,18 @@ export default async function HomePage() {
   }
   return (
     <main className="flex flex-col items-center space-y-5 py-5">
+      <Card className="w-full max-w-xl">
+        <CardHeader>
+          <CardTitle>Rate My Landlord</CardTitle>
+          <CardDescription>
+            Rate your landlord and see what others have to say about theirs.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="flex w-full gap-2">
+          <Input type="text" placeholder="Search by city" />
+          <Button>Search</Button>
+        </CardContent>
+      </Card>
       {posts.map(({ post, user }) => (
         <Card className="w-full max-w-xl" key={post.id}>
           <CardHeader className="flex-row items-center gap-2">

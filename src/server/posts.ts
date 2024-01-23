@@ -6,52 +6,33 @@ import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { auth } from "@clerk/nextjs";
 import { clerkClient } from "@clerk/nextjs";
-import type { User } from "@clerk/nextjs/server";
 import postFormSchema from "~/lib/postFormSchema";
-
-
-const filterUserInfo = (user: User) => {
-  return {id: user.id, username: user.username, imageUrl: user.imageUrl, firstName: user.firstName, lastName: user.lastName}
-}
+import filterUserInfo from "~/lib/filterUserInfo";
 
 // Get all posts from the database
 export async function getPosts() {
   try {
-
     // Get the first 10 posts from the database
     const posts = await db.post.findMany({
       take: 10,
+      orderBy: {
+        createdAt: 'desc',
+      },
     });
-
     // Get the user info for the posts
     const users = (await clerkClient.users.getUserList({
       userId: posts.map((post) => post.userId),
       limit: 10,
     })).map(filterUserInfo);
-
+    // Return the posts and user info
     return posts.map((post) => ({
       post, 
       user: users.find((user) => user.id === post.userId)
     }));
-
   } catch (error) {
     console.error('Error getting posts:', error);
   }
 };
-
-export async function getPostsByCity(search: string) {
-  try {
-    const posts = await db.post.findMany({
-      where: { city: search },
-    });
-    if (!posts) throw new Error('Posts not found');
-    
-  } catch (error) {
-    
-  }
-
-};
-
 
 // Get a single post from the database
 export async function getPost(id: string) {
@@ -60,10 +41,8 @@ export async function getPost(id: string) {
       where: { id },
     });
     if (!post) throw new Error('Post not found');
-
     const user = await clerkClient.users.getUser(post.userId);
     if (!user) throw new Error('User not found');
-
     return { 
       post: post, 
       user: filterUserInfo(user) 
@@ -90,7 +69,6 @@ export async function createPost(prevState: FormState, formData: FormData ){
   try {
     const {userId} = auth()
     if (!userId) throw new Error('Not logged in');
-    
     const { streetAddress, city, state, postalCode, title, content } = postFormSchema.parse({
       streetAddress: formData.get('streetAddress'),
       city: formData.get('city'),
@@ -99,7 +77,6 @@ export async function createPost(prevState: FormState, formData: FormData ){
       title: formData.get('title'),
       content: formData.get('content'),
     });
-
     await db.post.create({
       data: {
         title,
@@ -111,8 +88,6 @@ export async function createPost(prevState: FormState, formData: FormData ){
         postalCode,
       }
     });
-    
-    
   } catch (error) {
     if (error instanceof z.ZodError) {
       const errorMap = error.flatten().fieldErrors
@@ -128,10 +103,8 @@ export async function createPost(prevState: FormState, formData: FormData ){
         }
       };
     }
-    
     return {message: 'Failed', errors: {}};
   }
-
   // Revalidate the cache for the home page
   revalidatePath('/');
   redirect('/');

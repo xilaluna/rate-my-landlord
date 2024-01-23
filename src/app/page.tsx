@@ -10,7 +10,7 @@ import {
 } from "~/components/ui/card";
 import { Button } from "~/components/ui/button";
 import { Avatar, AvatarImage, AvatarFallback } from "~/components/ui/avatar";
-import { Input } from "~/components/ui/input";
+import Search from "~/components/Search";
 
 export default async function HomePage() {
   const posts = await getPosts();
@@ -27,9 +27,11 @@ export default async function HomePage() {
           </CardDescription>
         </CardHeader>
         <CardContent className="flex w-full gap-2">
-          <Input type="text" placeholder="Search by city" />
-          <Button>Search</Button>
+          <Search />
         </CardContent>
+        <CardFooter>
+          <p>Showing results for newest</p>
+        </CardFooter>
       </Card>
       {posts.map(({ post, user }) => (
         <Card className="w-full max-w-xl" key={post.id}>

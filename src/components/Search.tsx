@@ -29,7 +29,6 @@ export default function Search() {
         }}
         defaultValue={searchParams.get("query")?.toString()}
       />
-      <Button>Search</Button>
     </>
   );
 }

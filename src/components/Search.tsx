@@ -1,11 +1,24 @@
 "use client";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
+import { useSearchParams, usePathname, useRouter } from "next/navigation";
+import { useDebouncedCallback } from "use-debounce";
 
 export default function Search() {
-  function handleSearch(term: string) {
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const router = useRouter();
+
+  const handleSearch = useDebouncedCallback((term: string) => {
+    const params = new URLSearchParams(searchParams);
     console.log(term);
-  }
+    if (term) {
+      params.set("query", term);
+    } else {
+      params.delete("query");
+    }
+    router.replace(`${pathname}?${params.toString()}`);
+  }, 400);
   return (
     <>
       <Input
@@ -14,6 +27,7 @@ export default function Search() {
         onChange={(e) => {
           handleSearch(e.target.value);
         }}
+        defaultValue={searchParams.get("query")?.toString()}
       />
       <Button>Search</Button>
     </>

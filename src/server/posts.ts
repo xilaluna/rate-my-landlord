@@ -10,15 +10,27 @@ import postFormSchema from "~/lib/postFormSchema";
 import filterUserInfo from "~/lib/filterUserInfo";
 
 // Get all posts from the database
-export async function getPosts() {
+export async function getPosts(query: string | null) {
   try {
-    // Get the first 10 posts from the database
-    const posts = await db.post.findMany({
-      take: 10,
-      orderBy: {
-        createdAt: 'desc',
-      },
-    });
+    let posts = [];
+    if (query) {
+      posts = await db.post.findMany({
+        where: {
+          city: { contains: query},
+        },
+        orderBy: {
+          createdAt: 'desc',
+        },
+      });
+    } else {
+      posts = await db.post.findMany({
+        take: 10,
+        orderBy: {
+          createdAt: 'desc',
+        },
+      });
+    }
+
     // Get the user info for the posts
     const users = (await clerkClient.users.getUserList({
       userId: posts.map((post) => post.userId),

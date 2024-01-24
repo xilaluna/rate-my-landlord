@@ -9,12 +9,18 @@ import { clerkClient } from "@clerk/nextjs";
 import postFormSchema from "~/lib/postFormSchema";
 import filterUserInfo from "~/lib/filterUserInfo";
 
+const PER_PAGE = 5;
+
 // Get all posts from the database
-export async function getPosts(query: string | null) {
+export async function getPosts(query?: string, page?: number) {
   try {
     let posts = [];
+    const currentPage = Math.max(page ?? 1, 1);
+
     if (query) {
       posts = await db.post.findMany({
+        take : PER_PAGE,
+        skip : (currentPage - 1) * PER_PAGE,
         where: {
           city: { contains: query},
         },
@@ -24,23 +30,27 @@ export async function getPosts(query: string | null) {
       });
     } else {
       posts = await db.post.findMany({
-        take: 10,
+        take : PER_PAGE,
+        skip : (currentPage - 1) * PER_PAGE,
         orderBy: {
           createdAt: 'desc',
         },
       });
     }
 
-    // Get the user info for the posts
     const users = (await clerkClient.users.getUserList({
       userId: posts.map((post) => post.userId),
       limit: 10,
     })).map(filterUserInfo);
-    // Return the posts and user info
-    return posts.map((post) => ({
+
+    posts = posts.map((post) => ({
       post, 
       user: users.find((user) => user.id === post.userId)
     }));
+    
+    return {
+      posts: posts
+    }
   } catch (error) {
     console.error('Error getting posts:', error);
   }

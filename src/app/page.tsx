@@ -11,6 +11,7 @@ import {
 import { Button } from "~/components/ui/button";
 import { Avatar, AvatarImage, AvatarFallback } from "~/components/ui/avatar";
 import Search from "~/components/Search";
+// import PaginationPosts from "~/components/PaginationPosts";
 
 export default async function HomePage({
   searchParams,
@@ -21,10 +22,10 @@ export default async function HomePage({
   };
 }) {
   const query = searchParams?.query ?? "";
-  //const currentPage = Number(searchParams?.page) || 1;
+  const currentPage = Number(searchParams?.page) || 1;
 
-  const posts = await getPosts(query);
-  if (!posts) {
+  const data = await getPosts(query, currentPage);
+  if (!data) {
     return <div>loading...</div>;
   }
   return (
@@ -40,7 +41,7 @@ export default async function HomePage({
           <Search />
         </CardContent>
       </Card>
-      {posts.map(({ post, user }) => (
+      {data.posts.map(({ post, user }) => (
         <Card className="w-full max-w-xl" key={post.id}>
           <CardHeader className="flex-row items-center gap-2">
             <Avatar className="h-8 w-8">

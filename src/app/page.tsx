@@ -40,6 +40,11 @@ export default async function HomePage({
         <CardContent className="flex w-full gap-2">
           <Search />
         </CardContent>
+        <CardFooter>
+          <p className="text-muted-foreground">
+            Displaying {data.posts.length} item(s) of {data.count}
+          </p>
+        </CardFooter>
       </Card>
       {data.posts.map(({ post, user }) => (
         <Card className="w-full max-w-xl" key={post.id}>

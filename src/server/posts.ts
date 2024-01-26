@@ -14,9 +14,12 @@ const PER_PAGE = 5;
 // Get all posts from the database
 export async function getPosts(query?: string, page?: number) {
   try {
+    // init posts and current page
     let posts = [];
+    let count = 0;
     const currentPage = Math.max(page ?? 1, 1);
 
+    // if query exists, filter posts by city else get all posts
     if (query) {
       posts = await db.post.findMany({
         take : PER_PAGE,
@@ -28,6 +31,11 @@ export async function getPosts(query?: string, page?: number) {
           createdAt: 'desc',
         },
       });
+      count = await db.post.count({
+        where: {
+          city: { contains: query},
+        },
+      });
     } else {
       posts = await db.post.findMany({
         take : PER_PAGE,
@@ -36,20 +44,25 @@ export async function getPosts(query?: string, page?: number) {
           createdAt: 'desc',
         },
       });
+      count = await db.post.count();
     }
 
+
+    // get users for each post
     const users = (await clerkClient.users.getUserList({
       userId: posts.map((post) => post.userId),
       limit: 10,
     })).map(filterUserInfo);
 
+    // map posts to include user info
     posts = posts.map((post) => ({
       post, 
       user: users.find((user) => user.id === post.userId)
     }));
-    
+
     return {
-      posts: posts
+      posts: posts,
+      count: count,
     }
   } catch (error) {
     console.error('Error getting posts:', error);

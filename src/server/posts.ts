@@ -9,7 +9,7 @@ import { clerkClient } from "@clerk/nextjs";
 import postFormSchema from "~/lib/postFormSchema";
 import filterUserInfo from "~/lib/filterUserInfo";
 
-const PER_PAGE = 5;
+const PER_PAGE = 10;
 
 // Get all posts from the database
 export async function getPosts(query?: string, page?: number) {

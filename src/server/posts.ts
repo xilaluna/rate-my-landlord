@@ -144,3 +144,30 @@ export async function createPost(prevState: FormState, formData: FormData ){
   revalidatePath('/');
   redirect('/');
 }
+
+export async function deletePost(id: string) {
+  try {
+    // Get the user ID from the session
+    const {userId} = auth()
+    if (!userId) throw new Error('Not logged in');
+
+    // Get the post from the database
+    const post = await db.post.findUnique({
+      where: { id },
+    });
+    if (!post) throw new Error('Post not found');
+
+    // Check if the user is the author of the post
+    if (post.userId !== userId) throw new Error('Not authorized');
+
+    // Delete the post from the database
+    await db.post.delete({
+      where: { id },
+    });
+  } catch (error) {
+    console.error('Error deleting post:', error);
+  }
+  // Revalidate the cache for the home page
+  revalidatePath('/');
+  redirect('/');
+}

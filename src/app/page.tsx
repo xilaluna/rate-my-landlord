@@ -11,7 +11,7 @@ import {
 import { Button } from "~/components/ui/button";
 import { Avatar, AvatarImage, AvatarFallback } from "~/components/ui/avatar";
 import Search from "~/components/Search";
-// import PaginationPosts from "~/components/PaginationPosts";
+import PaginationPosts from "~/components/PaginationPosts";
 
 export default async function HomePage({
   searchParams,
@@ -22,12 +22,14 @@ export default async function HomePage({
   };
 }) {
   const query = searchParams?.query ?? "";
-  const currentPage = Number(searchParams?.page) || 1;
+  const currentPage = searchParams?.page ? Number(searchParams?.page) : 1;
 
   const data = await getPosts(query, currentPage);
   if (!data) {
     return <div>loading...</div>;
   }
+  const totalPages = Math.ceil(data.count / 10);
+
   return (
     <main className="flex flex-col items-center space-y-5 py-5">
       <Card className="w-full max-w-xl">
@@ -70,6 +72,7 @@ export default async function HomePage({
           </CardFooter>
         </Card>
       ))}
+      <PaginationPosts totalPages={totalPages} />
     </main>
   );
 }
